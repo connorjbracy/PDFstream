@@ -1,6 +1,6 @@
 import typing as T
 from configparser import ConfigParser
-from functools import cached_property
+# from functools import cached_property
 from pathlib import Path
 
 import pdfstream.io as io
@@ -82,39 +82,39 @@ class Config(ConfigParser):
     def getset(self, section: str, option: str) -> T.Set[str]:
         return set(self.getlist(section, option))
 
-    @cached_property
+    @property
     def sample_name(self) -> str:
         return self.get("METADATA", "sample_name")
 
-    @cached_property
+    @property
     def user_config(self) -> str:
         return self.get("METADATA", "user_config")
 
-    @cached_property
+    @property
     def pyfai_calib_kwargs(self) -> str:
         return self.get("METADATA", "pyfai_calib_kwargs")
 
-    @cached_property
+    @property
     def image_fields(self) -> T.List:
         return self.getlist("ANALYSIS", "image_fields")
 
-    @cached_property
+    @property
     def image_dtype(self) -> str:
         return self.get("ANALYSIS", "image_dtype")
 
-    @cached_property
+    @property
     def detectors(self) -> T.List:
         return self.getlist("ANALYSIS", "detectors")
 
-    @cached_property
+    @property
     def fill(self) -> bool:
         return self.getboolean("ANALYSIS", "fill")
 
-    @cached_property
+    @property
     def auto_mask(self) -> str:
         return self.getboolean("ANALYSIS", "auto_mask", fallback=True)
 
-    @cached_property
+    @property
     def mask_setting(self) -> dict:
         return {
             "alpha": self.getfloat("ANALYSIS", "alpha"),
@@ -123,7 +123,7 @@ class Config(ConfigParser):
             "upper_thresh": self.get("ANALYSIS", "upper_thresh")
         }
 
-    @cached_property
+    @property
     def integ_setting(self) -> dict:
         return {
             "npt": self.getint("ANALYSIS", "npt"),
@@ -134,7 +134,7 @@ class Config(ConfigParser):
             "unit": "2th_deg"
         }
 
-    @cached_property
+    @property
     def trans_setting(self) -> dict:
         return {
             "rpoly": self.getfloat("ANALYSIS", "rpoly"),
@@ -148,39 +148,39 @@ class Config(ConfigParser):
             "dataformat": "QA"
         }
 
-    @cached_property
+    @property
     def pdfgetx(self) -> bool:
         return self.getboolean("ANALYSIS", "pdfgetx")
 
-    @cached_property
+    @property
     def exports(self) -> set:
         return self.getset("ANALYSIS", "exports")
 
-    @cached_property
+    @property
     def tiff_base(self) -> Path:
         return Path(self.get("ANALYSIS", "tiff_base")).expanduser()
 
-    @cached_property
+    @property
     def directory(self) -> SpecialStr:
         return SpecialStr(self.get("ANALYSIS", "directory"))
 
-    @cached_property
+    @property
     def file_prefix(self) -> SpecialStr:
         return SpecialStr(self.get("ANALYSIS", "file_prefix"))
 
-    @cached_property
+    @property
     def hints(self) -> T.List[str]:
         return self.getlist("ANALYSIS", "hints")
 
-    @cached_property
+    @property
     def save_plots(self) -> bool:
         return self.getboolean("ANALYSIS", "save_plots")
 
-    @cached_property
+    @property
     def is_test(self) -> bool:
         return self.getboolean("ANALYSIS", "is_test")
 
-    @cached_property
+    @property
     def tiff_setting(self) -> dict:
         return {
             "astype": self.get("ANALYSIS", "tiff_astype", fallback="float32"),
@@ -189,27 +189,27 @@ class Config(ConfigParser):
             "imagej": self.get("ANALYSIS", "tiff_imagej", fallback=False)
         }
 
-    @cached_property
+    @property
     def visualizers(self) -> set:
         return self.getset("VISUALIZATION", "visualizers")
 
-    @cached_property
+    @property
     def inbound_address(self):
         return self.get("PROXY", "inbound_address")
 
-    @cached_property
+    @property
     def outbound_address(self):
         return self.get("PROXY", "outbound_address")
 
-    @cached_property
+    @property
     def raw_data_prefix(self):
         return self.get("PROXY", "raw_data_prefix").encode()
 
-    @cached_property
+    @property
     def analyzed_data_prefix(self):
         return self.get("PROXY", "analyzed_data_prefix").encode()
 
-    @cached_property
+    @property
     def datakeys_list(self) -> T.List[DataKeys]:
         return [DataKeys(det, img) for det, img in zip(self.detectors, self.image_fields)]
 
